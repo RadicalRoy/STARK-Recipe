@@ -6,14 +6,14 @@ const initialState = {
   passwordStr: '',
   isLoggedIn: false,
   isSignup: false,
-  userId : null,
+  userId: null,
   userName: '',
   email: '',
   error: null
 }
 
 const authReducer = (state = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case types.UPDATE_USERNAME_STR:
       return {
         ...state,
@@ -26,32 +26,32 @@ const authReducer = (state = initialState, action) => {
         passwordStr: action.payload
       }
 
-      case types.IS_LOGIN:
-        if(action.payload.error){
-          return {
-            ...state,
-            error: action.payload.error
-          }
-        }else{
-          const isLoggedIn = true;
-          return {
-            ...state,
-            isLoggedIn,
-            userId: action.payload.id,
-            userName: action.payload.username,
-            email: action.payload.email
-          }
-        }
-
-      case types.SIGNUP_ONCLICK:
-        const isSignup = true;
+    case types.IS_LOGIN:
+      if (action.payload.error) {
         return {
           ...state,
-          isSignup
+          error: action.payload.error
         }
+      } else {
+        const isLoggedIn = true;
+        return {
+          ...state,
+          isLoggedIn,
+          userId: action.payload.id,
+          userName: action.payload.username,
+          email: action.payload.email
+        }
+      }
 
-      default:
-        return state;
+    case types.SIGNUP_ONCLICK:
+      const isSignup = true;
+      return {
+        ...state,
+        isSignup
+      }
+
+    default:
+      return state;
   }
 };
 

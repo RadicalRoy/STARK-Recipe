@@ -13,7 +13,7 @@ export const updatePasswordStr = (passwordStr) => ({
 
 export const isLogin = (id, username, email, error) => ({
   type: types.IS_LOGIN,
-  payload: {id, username, email, error}
+  payload: { id, username, email, error }
 });
 
 export const signupOnClick = () => ({
@@ -21,32 +21,32 @@ export const signupOnClick = () => ({
 });
 
 export const loginApi = (usernameStr, passwordStr) => {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     return fetch('http://localhost:3000/login', {
       method: "POST",
-      headers: {"content-type": "application/json"},
-      body: JSON.stringify({"username": usernameStr, "password": passwordStr})
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ "username": usernameStr, "password": passwordStr })
     })
-    .then(response => response.json())
-    .then(response => {
-      if(response.error) dispatch(isLogin('error','error','error',response.error));
-      else dispatch(isLogin(response.id, response.username, response.email, null));
-    })
-    .catch(err => console.log(err))
+      .then(response => response.json())
+      .then(response => {
+        if (response.error) dispatch(isLogin('error', 'error', 'error', response.error));
+        else dispatch(isLogin(response.id, response.username, response.email, null));
+      })
+      .catch(err => console.log(err))
   }
 }
 
 export const signupApi = (usernameStr, passwordStr) => {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     return fetch('http://localhost:3000/signup', {
       method: "POST",
-      headers: {"content-type": "application/json"},
-      body: JSON.stringify({"username": usernameStr, "password": passwordStr})
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ "username": usernameStr, "password": passwordStr })
     })
-    .then(response => response.json())
-    .then(response => {
+      .then(response => response.json())
+      .then(response => {
         dispatch(isLogin(response.id, response.username, response.email))
-    })
-    .catch(err => console.log(err))
+      })
+      .catch(err => console.log(err))
   }
 }
