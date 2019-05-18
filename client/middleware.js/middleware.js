@@ -1,21 +1,24 @@
 import Dexie from 'dexie'
 
-export default function createLogger({ getState }) {
+export function reduxie({ getState }) {
     return (next) =>
         (action) => {
+
+            // load db
             const db = new Dexie('Mikeys Dexie');
-            const prevState = getState();
             db.version(1).stores({ todos: '++id' });
-            db.table('todos')
-                .add({
-                    ...prevState
-                });
-            // getTable(db);
+
+
             next(action);
+
+            // cache state to idb
+            const state = getState();
+            db.table('todos')
+                .add({ ...state });
         };
 };
 
-function getTable(db) {
+export function getStateFromCache() {
     return db.todos.toCollection().last((rec) => {
         console.log(rec)
         return rec;
